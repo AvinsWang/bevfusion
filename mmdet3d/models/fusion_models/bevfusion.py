@@ -147,7 +147,7 @@ class BEVFusion(Base3DFusionModel):
             gt_depths=gt_depths,
         )
         return x
-    
+
     def extract_features(self, x, sensor) -> torch.Tensor:
         feats, coords, sizes = self.voxelize(x, sensor)
         batch_size = coords[-1, 0] + 1

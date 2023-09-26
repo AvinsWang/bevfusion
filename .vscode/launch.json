@@ -1,0 +1,50 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "create nuscenes pkl",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools/create_data.py",
+            "console": "integratedTerminal",
+            "args": [
+                "nuscenes",
+                "--root-path", "./data/nuscenes",
+                "--out-dir", "./data/nuscenes",
+                "--extra-tag", "bevfusion-nuscenes",
+                "--version", "v1.0-mini",
+                "--max-sweeps", "1",
+            ],
+            "justMyCode": true
+        },
+        {
+            "name": "cam-only debug",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools/train.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_VISIBLE_DEBICES": "1",
+                "MATER_HOST": "localhost",
+                "MASTER_PORT": "29500"
+            },
+            "args": [
+                "configs/nuscenes/det/centerhead/lssfpn/camera/256x704/swint/default.yaml",
+                "--model.encoders.camera.backbone.init_cfg.checkpoint",
+                "pretrained/swint-nuimages-pretrained.pth"
+            ],  
+            "justMyCode": true
+        },
+    ]
+}
