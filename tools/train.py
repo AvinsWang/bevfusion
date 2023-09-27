@@ -18,12 +18,14 @@ from mmdet3d.utils import get_root_logger, convert_sync_batchnorm, recursive_eva
 
 
 def main():
-    # dist.init()
-
     parser = argparse.ArgumentParser()
     parser.add_argument("config", metavar="FILE", help="config file")
     parser.add_argument("--run-dir", metavar="DIR", help="run directory")
+    parser.add_argument("--no-dist", action="store_true", help="ddp training")
     args, opts = parser.parse_known_args()
+
+    if not args.no_dist:
+        dist.init()
 
     configs.load(args.config, recursive=True)
     configs.update(opts)
@@ -77,7 +79,7 @@ def main():
         model,
         datasets,
         cfg,
-        distributed=False,
+        distributed=not args.no_dist,
         validate=True,
         timestamp=timestamp,
     )

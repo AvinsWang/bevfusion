@@ -247,6 +247,11 @@ class NuScenesDataset(Custom3DDataset):
             for _, camera_info in info["cams"].items():
                 data["image_paths"].append(camera_info["data_path"])
 
+                # lidar2camera_rt = np.eye(4).astype(np.float32)
+                # lidar2camera_rt[:3, :3] = camera_info["sensor2lidar_rotation"]
+                # lidar2camera_rt[:3, 3] = camera_info["sensor2lidar_translation"]
+                # data["lidar2camera"].append(np.linalg.inv(lidar2camera_rt))
+                # 下面代码等同于上面的
                 # lidar to camera transform
                 lidar2camera_r = np.linalg.inv(camera_info["sensor2lidar_rotation"])
                 lidar2camera_t = (

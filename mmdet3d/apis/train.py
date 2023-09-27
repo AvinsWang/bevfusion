@@ -45,16 +45,18 @@ def train_model(
     find_unused_parameters = cfg.get("find_unused_parameters", False)
     # Sets the `find_unused_parameters` parameter in
     # torch.nn.parallel.DistributedDataParallel
-    # model = MMDistributedDataParallel(
-    #     model.cuda(),
-    #     device_ids=[torch.cuda.current_device()],
-    #     broadcast_buffers=False,
-    #     find_unused_parameters=find_unused_parameters,
-    # )
-    model = MMDataParallel(
-        model.cuda(),
-        device_ids=[torch.cuda.current_device()],
-    )
+    if distributed:
+        model = MMDistributedDataParallel(
+            model.cuda(),
+            device_ids=[torch.cuda.current_device()],
+            broadcast_buffers=False,
+            find_unused_parameters=find_unused_parameters,
+        )
+    else:
+        model = MMDataParallel(
+            model.cuda(),
+            device_ids=[torch.cuda.current_device()],
+        )
 
     # build runner
     optimizer = build_optimizer(model, cfg.optimizer)

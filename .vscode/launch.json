@@ -35,14 +35,13 @@
             "program": "${workspaceFolder}/tools/train.py",
             "console": "integratedTerminal",
             "env": {
-                "CUDA_VISIBLE_DEBICES": "1",
-                "MATER_HOST": "localhost",
-                "MASTER_PORT": "29500"
+                "CUDA_VISIBLE_DEBICES": "0",
             },
             "args": [
                 "configs/nuscenes/det/centerhead/lssfpn/camera/256x704/swint/default.yaml",
                 "--model.encoders.camera.backbone.init_cfg.checkpoint",
-                "pretrained/swint-nuimages-pretrained.pth"
+                "pretrained/swint-nuimages-pretrained.pth",
+                "--no-dist"
             ],  
             "justMyCode": true
         },
